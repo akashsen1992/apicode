@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
-const formSubmit = ()=>{
-    
-}
+import axios from 'axios';
 const AddUser = () => {
 
     const [Inputs,setInputs] = useState([]);
+    const formSubmit = ()=>{
+        axios.post("http://localhost:8000/adddata", Inputs).then(res => {
+            console.log(res);
+            console.log(res.data);
+          });
+    }
     const handleChange = e => setInputs(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
     console.log(Inputs);
     return (
@@ -15,7 +19,7 @@ const AddUser = () => {
        <label>Email</label>
        <input type='email' name='email' className='input-form' onChange={handleChange}/>
        <label>Phone</label>
-       <input type='number' name='phone' className='input-form' onChange={handleChange}/>
+       <input type='text' name='Phone' className='input-form' onChange={handleChange}/>
        <input type='submit' name='submit' onClick={formSubmit} className='btn btn-primary'/>
      </div>
     </>

@@ -40,6 +40,7 @@ app.get('/test',(req,res)=>{
 app.post('/adddata',async(req,res)=>{
     try {        
     const maindata = new userdatas(req.body);
+    console.log(maindata);
     const data = await maindata.save();
     res.send(data);
     } catch (error) {
