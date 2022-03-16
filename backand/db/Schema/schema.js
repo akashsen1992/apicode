@@ -1,9 +1,10 @@
 var mongoose = require('mongoose');
   
 var userdatas = new mongoose.Schema({
-    name: {type:String,required:true},
+    name: {type:String,required:true,unique: true},
     email: {type:String,required:true,unique: true},
-    Phone:{type:String,required:true}
+    Phone:{type:String,required:true},
+    image:{type:String}
 });
   
 //Image is a model which has a schema imageSchema

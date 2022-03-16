@@ -11,6 +11,9 @@ const Home = () => {
     useEffect(() => {
         userdata();
     }, [])
+    useEffect(() => {
+        
+    }, [userdata])
     const deletedrow = async (data)=>{
         const result = await confirm("Are you sure you want to delete?");
         if (result) {
@@ -30,6 +33,7 @@ const Home = () => {
                 <tr>
                     <th>Name</th>
                     <th>Email</th>
+                    <th>Image</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -39,6 +43,7 @@ const Home = () => {
             <tr key={userdatas._id}>
             <td>{userdatas.name}</td>
             <td>{userdatas.email}</td>
+            <td><img src={'file:///home/link-2-g/Documents/Shopingcart/backand/'+userdatas.image} alt={userdatas.name} width="100%" /></td>
             <td><a onClick={()=>{deletedrow(userdatas._id)}}>Delete</a></td>
         </tr>
             )

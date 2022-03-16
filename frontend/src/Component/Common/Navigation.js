@@ -16,6 +16,7 @@ const Navigation = () => {
             <li><Link  to='/' >Home</Link></li>
              <li><Link to='/about'>About</Link></li>
              <li><Link  to='/adduser'>AddUser</Link> </li>
+             <li><Link to='/imageuploade'>Image Upload</Link></li>
            </ul>
           </div>
           </div>
