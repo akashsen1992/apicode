@@ -1,36 +1,31 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import About from "./Component/About";
-import Home from "./Component/Home";
-import AddUser from "./Component/AddUser";
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom";
-import Navigation from './Component/Common/Navigation';
-import Imageuploade from "./Component/Common/Imageuploade";
+import './App.css';
+import { useEffect,useState } from 'react';
 
+function App() {
+  const [mydata,setdata]= useState([]);
+  useEffect(() => {
+   userdata();
+   }, []);
 
-const App= () => {
+   const userdata = async ()=>{
+     let data = await fetch(`http://localhost:8000/getdata`);
+     let actualdata =  await data.json();
+     setdata(actualdata)
+     console.log(actualdata);
+
+   }
   return (
-    <>
-    <div className="container">
-        <Router>
-        <Navigation />
-          <Switch>
-          <Route exact component={Home}  path="/" />
-           <Route exact  path="/about" component={About} />          
-           <Route  exact path='/adduser'  component={AddUser}></Route>
-           <Route exact path='/imageuploade' component={Imageuploade} ></Route>
-           </Switch>
-        </Router>
-      
+    <div className="App">
+      {mydata.map((item)=>{
+        return <> 
+        <p>{item.name}</p> 
+        <h2>{item.email}</h2> 
+        </>
+      })}
+    
     </div>
-    </>
   );
- 
 }
 
 export default App;
