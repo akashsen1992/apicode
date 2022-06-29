@@ -56,20 +56,6 @@ var upload = multer({ dest: 'upload/'});
 var type = upload.single('image');
 
 
-// app.post('/uploade',upload.single('image'),(req,res)=>{
-//   var img = fs.readFileSync(req.files);
-//   console.log(img);
-//   var encode_img = img.toString('base64');
-//   // var final_img = {
-//   //     contentType:req.file.mimetype,
-//   //     image:new Buffer(encode_img,'base64')
-//   // };
- 
-// //console.log(img.originalname);
-// res.send(img.originalname)
-
-
-// })
 
 
 app.post("/uploads", type, (req, res) => {
@@ -88,21 +74,36 @@ app.post("/uploads", type, (req, res) => {
 //   }));
 //   app.use(bodyParser.json({limit: "50mb"}));
 
-app.post('/adddata',type,async(req,res)=>{
-    try {        
-      console.log(req.body);
-      var tmp_path = req.file.path;
-     var extension =  req.file.mimetype.split('image/')
-      var target_path = `upload/${req.file.filename}`;
-      const {name ,email,Phone } = req.body;
-    const maindata = new userdatas({name:name,email:email,Phone:Phone,image:target_path});
-    console.log(maindata);
-    const data = await maindata.save();
-    res.send(data);
-    } catch (error) {
-        res.send(error);
-    }
+
+app.post('/useradd',async (req,res)=>{
+  try {
+    const data = await userdatas(req.body);
+    const final= await data.save()
+     res.send(final);    
+  } catch (error) {
+    res.send(error)
+  }   
 })
+
+app.get('/getuserdata',async(req,res)=>{
+try {
+  const search = req.query;
+  const searchdata = await userdatas.find(search);
+  if(searchdata!=''){
+    let data = [{
+      message:'data found',
+      searchdata
+    }]
+    res.send(data)
+  }else{
+    res.send([{message:"No data found"}])
+  } 
+  
+} catch (error) {
+   res.send(error)
+}
+})
+
 
 app.get('/getdata',async(req,res)=>{
     try {        
@@ -111,6 +112,24 @@ app.get('/getdata',async(req,res)=>{
     } catch (error) {
         res.send(error);
     }
+})
+
+app.get('/getfiltervalue',async (req,res)=>{
+  try {
+    const searchdata = await userdatas.findOne({$and:[{"comments.like":2},{"comments.user":'user2'},{name:"akashsen191"}]});
+    if(searchdata!=''){
+      let data = [{
+        message:'data found',
+        searchdata
+      }]
+      res.send(data)
+    }else{
+      res.send([{message:"No data found"}])
+    } 
+    //res.send(values);
+  } catch (error) {
+    res.send(error);
+  }
 })
 
 app.delete('/deleteuse/:id',(req,res)=>{
